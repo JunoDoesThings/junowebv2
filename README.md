@@ -1,9 +1,9 @@
 # Thisisjunoswebsite Version II "*the metro update*"
 
-# NEW UI
+# New UI
 using a new "metro ui" design instead of the old
 
-# HOME MENU
+# Home Menu replaces old header style
 new home menu! the new home menu relies on a CSS file instead of manually importing each html for reliable consistencsy of playing each animation and each option.
 
 # Music Player V2
