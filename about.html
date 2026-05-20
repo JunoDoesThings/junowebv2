@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About — thisisjunoswebsite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="Ref/favicon.ico">
+  <link rel="apple-touch-icon" href="Ref/favicon.ico">
+  <link rel="stylesheet" href="metro.css">
+</head>
+<body class="preload">
+  <div id="page-blink"></div>
+  <header class="site-header">
+  <div class="header-title">thisisjunoswebsite</div>
+  <div style="display: flex; gap: 8px;">
+    
+    <button class="menu-btn" id="menu-toggle">☰ MENU</button>
+  </div>
+</header>
+<div class="backdrop"></div>
+<nav class="dropdown-menu" id="dropdown-menu">
+      <a href="index.html" class="menu-item">Home</a>
+      <a href="about.html" class="menu-item">About Me</a>
+      <a href="blog.html" class="menu-item">Blog</a>
+      <a href="energy-diagnosis.html" class="menu-item">Energy Diagnosis</a>
+      <a href="chords.html" class="menu-item">Chords</a>
+      <a href="cheapwine.html" class="menu-item">Cheapwine Hangover</a>
+      <a href="socials.html" class="menu-item">Socials</a>
+      <a href="projects.html" class="menu-item">Projects</a>
+      <a href="music.html" class="menu-item">Music</a>
+      <a href="art.html" class="menu-item">Art</a>
+      <a href="self-archive.html" class="menu-item">Self-Archive</a>
+      <a href="commissions.html" class="menu-item">Commissions</a>
+      <a href="world.html" class="menu-item">the world as we knew it.</a>
+      <a href="https://www.patreon.com/cw/JunoDoesThings" class="menu-item" target="_blank" rel="noopener noreferrer">Patreon</a>
+</nav>
+
+  <div id="settings-menu" class="settings-menu">
+    <div class="settings-content">
+      <h2 style="margin-top: 0; margin-bottom: 20px;">Settings</h2>
+      <div class="settings-item">
+        <label for="dark-mode-toggle" style="display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer;">
+          <input type="checkbox" id="dark-mode-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+          <span>Dark Mode</span>
+        </label>
+      </div>
+      <button id="close-settings" style="margin-top: 20px; width: 100%;">Close</button>
+    </div>
+  </div>
+
+  <main class="content-main">
+    <h1>About Me</h1>
+    <div class="bio">
+      <p>Hi Im Juno! i like to do things i think?</p>
+      <p>I play Guitar, Write Songs, And Do Vocals in Cheapwine Hangover. Make Solo MIDI Music Under The Name "Juno Sillys" Do My part in "Crimson Xero", And make solo music under the alias "the world as we knew it."</p>
+      <p>I Like to draw and make art, i actually drew the background! Most art for cheapwine will likely be drawn by me or my friend ethan!</p>
+      <p>I Have Quite The Music Taste. My favorite bands have to be "Ramshackle Glory", "Asking For It", "This Is A Robbery", "Modern Baseball", "Andrew Jackson Jihad", "Closet Fiends", "Adventure, Adventure!", "The Anorexic Olsen Twin", Or "Streetlight Manifesto"<p>
+      <p>Feel Free to Reach Out on Socials!</p>
+    </div>
+    <img src="Assets/Images/guy.png" alt="guy" class="fixed-img">
+    <footer>
+      <p class="muted"><span id="yap-easter-egg" style="cursor: pointer;">fuck i talk too much.</span></p>
+    </footer>
+  </main>
+  <script src="metro.js"></script>
+  <script>
+    (function(){
+      var yapElement = document.getElementById('yap-easter-egg');
+      if(yapElement){
+        yapElement.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = 'yap.html';
+        });
+      }
+    })();
+  </script>
+  <script>
+    // Wrap text nodes in fall-letter spans
+    (function(){
+      function wrapTextInSpans(node) {
+        var nodes = [];
+        for (var i = 0; i < node.childNodes.length; i++) {
+          nodes.push(node.childNodes[i]);
+        }
+        nodes.forEach(function(n) {
+          if (n.nodeType === 3) {
+            var text = n.textContent;
+            var span = document.createElement('span');
+            span.innerHTML = '';
+            for (var i = 0; i < text.length; i++) {
+              var letterSpan = document.createElement('span');
+              letterSpan.className = 'fall-letter';
+              letterSpan.textContent = text[i];
+              span.appendChild(letterSpan);
+            }
+            n.parentNode.replaceChild(span, n);
+          } else if (n.nodeType === 1 && n.nodeName !== 'IMG' && n.nodeName !== 'FOOTER') {
+            wrapTextInSpans(n);
+          }
+        });
+      }
+      
+      var bio = document.querySelector('.bio');
+      if (bio) {
+        wrapTextInSpans(bio);
+      }
+    })();
+
+    // Falling letters physics
+    (function(){
+      var fallingLetters = [];
+      
+      function makeFallenLetter(span) {
+        var bio = document.querySelector('.bio');
+        var bioRect = bio.getBoundingClientRect();
+        var r = span.getBoundingClientRect();
+        var clone = span.cloneNode(true);
+        clone.className = 'fallen-letter';
+        clone.style.position = 'absolute';
+        clone.style.left = (r.left - bioRect.left) + 'px';
+        clone.style.top = (r.top - bioRect.top) + 'px';
+        clone.style.font = getComputedStyle(span).font;
+        clone.style.color = getComputedStyle(span).color;
+        clone.style.opacity = '1';
+        clone.style.pointerEvents = 'none';
+        clone.style.zIndex = '10003';
+        bio.appendChild(clone);
+        span.style.visibility = 'hidden';
+
+        var x = r.left - bioRect.left;
+        var y = r.top - bioRect.top;
+        var w = r.width;
+        var h = r.height;
+        var vx = (Math.random() - 0.5) * 2.6;
+        var vy = 0;
+        var angle = (Math.random() * 40 - 20);
+        var omega = (Math.random() - 0.5) * 0.6;
+        var g = 0.55 + Math.random() * 0.4;
+        var bounce = 0.7 + Math.random() * 0.15;
+        var floor = bioRect.height - (r.height / 2) - 4;
+        var leftBound = 0;
+        var rightBound = bioRect.width - r.width;
+        var settled = false;
+
+        var letterObj = { x: x, y: y, w: w, h: h, vx: vx, vy: vy };
+        fallingLetters.push(letterObj);
+
+        function step() {
+          if (settled) return;
+          vy += g;
+          x += vx;
+          y += vy;
+          angle += omega;
+
+          if (x < leftBound) { x = leftBound; vx = -vx * 0.6; }
+          if (x > rightBound) { x = rightBound; vx = -vx * 0.6; }
+
+          for (var i = 0; i < fallingLetters.length; i++) {
+            var other = fallingLetters[i];
+            if (other === letterObj) continue;
+            var dx2 = (x + w / 2) - (other.x + other.w / 2);
+            var dy2 = (y + h / 2) - (other.y + other.h / 2);
+            var dist = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+            var minDist = Math.max(w, h) * 0.6;
+            if (dist < minDist && dist > 0) {
+              var force = (minDist - dist) * 0.15;
+              var nx = dx2 / dist;
+              var ny = dy2 / dist;
+              vx += nx * force;
+              vy += ny * force;
+              other.vx -= nx * force * 0.5;
+              other.vy -= ny * force * 0.5;
+            }
+          }
+
+          if (y >= floor) {
+            y = floor;
+            vy = -vy * bounce;
+            vx = vx * 0.9;
+            omega = -omega * 0.6 + (vx * 0.06);
+            if (Math.abs(vy) < 2 && Math.abs(vx) < 0.6) {
+              settled = true;
+              clone.style.left = x + 'px';
+              clone.style.top = y + 'px';
+              clone.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+              fallingLetters.splice(fallingLetters.indexOf(letterObj), 1);
+              clone.style.pointerEvents = 'auto';
+              return;
+            }
+          }
+
+          clone.style.left = x + 'px';
+          clone.style.top = y + 'px';
+          clone.style.transform = 'rotate(' + angle.toFixed(1) + 'deg)';
+          letterObj.x = x;
+          letterObj.y = y;
+          letterObj.vx = vx;
+          letterObj.vy = vy;
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      document.body.addEventListener('click', function(e) {
+        var sel = window.getSelection && window.getSelection();
+        if (sel && !sel.isCollapsed) {
+          var bio = e.target.closest && e.target.closest('.bio');
+          var spans = [];
+          if (bio) {
+            bio.querySelectorAll('.fall-letter').forEach(function(sp) {
+              if (sel.containsNode(sp, true) && sp.style.visibility !== 'hidden') {
+                spans.push(sp);
+              }
+            });
+          }
+          if (spans.length) {
+            e.preventDefault();
+            e.stopPropagation();
+            spans.forEach(function(sp) { makeFallenLetter(sp); });
+            try { sel.removeAllRanges(); } catch (_) { }
+            return;
+          }
+        }
+        var s = e.target.closest && e.target.closest('.fall-letter');
+        if (!s) return;
+        e.stopPropagation();
+        makeFallenLetter(s);
+      });
+    })();
+  </script>
+  <script>
+  ;(function(){
+    // Dark Mode Settings
+    const settingsToggle = document.getElementById('settings-toggle');
+    const closeSettings = document.getElementById('close-settings');
+    const settingsMenu = document.getElementById('settings-menu');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const html = document.documentElement;
+    
+    if (!settingsToggle) return; // Skip if settings not present
+    
+    // Load dark mode preference on page load
+    function loadDarkModePreference() {
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        html.classList.add('dark-mode');
+        darkModeToggle.checked = true;
+      } else {
+        html.classList.remove('dark-mode');
+        darkModeToggle.checked = false;
+      }
+    }
+    
+    // Open settings menu
+    settingsToggle.addEventListener('click', function() {
+      settingsMenu.classList.add('active');
+    });
+    
+    // Close settings menu
+    closeSettings.addEventListener('click', function() {
+      settingsMenu.classList.remove('active');
+    });
+    
+    // Close settings menu when clicking outside
+    settingsMenu.addEventListener('click', function(e) {
+      if (e.target === settingsMenu) {
+        settingsMenu.classList.remove('active');
+      }
+    });
+    
+    // Handle dark mode toggle
+    darkModeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        html.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        html.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
+      }
+    });
+    
+    // Load preference on page load
+    loadDarkModePreference();
+  })();
+  </script>
+</body>
+</html>

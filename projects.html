@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>thisisjunoswebsite - Projects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="Ref/favicon.ico">
+  <link rel="apple-touch-icon" href="Ref/favicon.ico">
+  <link rel="stylesheet" href="metro.css">
+</head>
+<body class="preload">
+  <div id="page-blink"></div>
+  <header class="site-header">
+  <div class="header-title">thisisjunoswebsite</div>
+  <div style="display: flex; gap: 8px;">
+    
+    <button class="menu-btn" id="menu-toggle">☰ MENU</button>
+    </div>
+</header>
+<div class="backdrop"></div>
+<nav class="dropdown-menu" id="dropdown-menu">
+      <a href="index.html" class="menu-item">Home</a>
+      <a href="about.html" class="menu-item">About Me</a>
+      <a href="blog.html" class="menu-item">Blog</a>
+      <a href="energy-diagnosis.html" class="menu-item">Energy Diagnosis</a>
+      <a href="chords.html" class="menu-item">Chords</a>
+      <a href="cheapwine.html" class="menu-item">Cheapwine Hangover</a>
+      <a href="socials.html" class="menu-item">Socials</a>
+      <a href="projects.html" class="menu-item">Projects</a>
+      <a href="music.html" class="menu-item">Music</a>
+      <a href="art.html" class="menu-item">Art</a>
+      <a href="self-archive.html" class="menu-item">Self-Archive</a>
+      <a href="commissions.html" class="menu-item">Commissions</a>
+      <a href="world.html" class="menu-item">the world as we knew it.</a>
+      <a href="https://www.patreon.com/cw/JunoDoesThings" class="menu-item" target="_blank" rel="noopener noreferrer">Patreon</a>
+</nav>
+  <div id="settings-menu" class="settings-menu">
+    <div class="settings-content">
+      <h2 style="margin-top: 0; margin-bottom: 20px;">Settings</h2>
+      <div class="settings-item">
+        <label for="dark-mode-toggle" style="display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer;">
+          <input type="checkbox" id="dark-mode-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+          <span>Dark Mode</span>
+        </label>
+      </div>
+      <button id="close-settings" style="margin-top: 20px; width: 100%;">Close</button>
+    </div>
+  </div>
+
+
+  <main class="content-main">
+    <h1>Projects!</h1>
+    <div class="content">
+<h2>Cheapwine Hangover (Current)</h2>
+
+    <p>
+      Cheapwine Hangover is a upcoming punk rock / folk punk band located in Morgantown, WV. Most of our music is teen angst or whatever comes to mind.
+    </p>
+
+<h2>the world as we knew it (Current, Solo)</h2>
+
+    <p>
+      the world as we knew it is a solo midwest emo / folk punk project directed and made by me. more info soon!
+    </p>
+
+<h2>Juno Sillys (Solo MIDI, Temporarily On Hiatus)</h2>
+
+    <p>
+       juno sillys is my solo midi music project where i make random tunes and stuff. its mostly just for fun and experimentating with different types of music.
+    </p>
+
+<h3>Crimson Xero (Old MIDI Band)</h3>
+
+    <p>
+         Crimson Xero is a midi band Me & My Friend Vac Started. We made a 2 albums but never really got anywhere with it other than making a few funny tunes with a 10 year old screaming slurs. (I DONT CONDONE HIS ACTIONS)
+
+<h3><a href="0rang3.html" style="color: inherit; text-decoration: none;">0rang3</a> (Crimson Xero's "Special" Little Brother)</h3>
+
+    <p>
+       oh god dont ask about 0rang3. its a dead project that was supposed to be some sort shit post of an collective. same members of crimson xero, different name and wasn't serious whatsoever.
+
+
+       <h3><a href="https://crimsonxero.bandcamp.com/album/baby-the-album" style="color: inherit; text-decoration: none;">Others</a></h3>
+
+    <p>
+       yes, i have other projects. most of these projects are completely dead and like to keep them hidden from the sight for your multi colored pupils. if you want to look, im not stopping you.
+<p class="muted">
+      
+    </p>
+    </div>
+  </main>
+  <script src="metro.js"></script>
+
+  <script>
+  ;(function(){
+    // Dark Mode Settings
+    const settingsToggle = document.getElementById('settings-toggle');
+    const closeSettings = document.getElementById('close-settings');
+    const settingsMenu = document.getElementById('settings-menu');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const html = document.documentElement;
+    
+    if (!settingsToggle) return; // Skip if settings not present
+    
+    // Load dark mode preference on page load
+    function loadDarkModePreference() {
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        html.classList.add('dark-mode');
+        darkModeToggle.checked = true;
+      } else {
+        html.classList.remove('dark-mode');
+        darkModeToggle.checked = false;
+      }
+    }
+    
+    // Open settings menu
+    settingsToggle.addEventListener('click', function() {
+      settingsMenu.classList.add('active');
+    });
+    
+    // Close settings menu
+    closeSettings.addEventListener('click', function() {
+      settingsMenu.classList.remove('active');
+    });
+    
+    // Close settings menu when clicking outside
+    settingsMenu.addEventListener('click', function(e) {
+      if (e.target === settingsMenu) {
+        settingsMenu.classList.remove('active');
+      }
+    });
+    
+    // Handle dark mode toggle
+    darkModeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        html.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        html.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
+      }
+    });
+    
+    // Load preference on page load
+    loadDarkModePreference();
+  })();
+  </script>
+
+</body>
+</html>

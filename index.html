@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>thisisjunoswebsite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.ico">
+  <link rel="stylesheet" href="metro.css">
+  <style>
+    @font-face {
+      font-family: 'Cascadia Mono';
+      src: local('Cascadia Mono'), local('CascadiaMono'), local('Cascadia Code'), local('CascadiaCode');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      background-image: url('Assets/Images/background.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      
+      --text: #ffffff;
+      --muted: #ffffff;
+      --link: #ffffff;
+      --max-width: 720px;
+      --text-align: center;
+      --metro-primary: #7a5cff;
+      --metro-dark: #553bce;
+      --metro-light: #c9b7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    ::selection {
+      background: transparent;
+      color: inherit;
+    }
+
+    ::-moz-selection {
+      background: transparent;
+      color: inherit;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cascadia Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* Header with Metro Style */
+    header {
+      padding: 16px 24px;
+      margin: 0;
+      position: relative;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--link);
+    }
+
+    /* Menu Button */
+    .menu-btn {
+      background: var(--metro-primary);
+      border: 2px solid var(--metro-primary);
+      color: white;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-family: 'Cascadia Mono', monospace;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(122, 92, 255, 0.3);
+    }
+
+    .menu-btn:hover {
+      background: var(--metro-dark);
+      border-color: var(--metro-light);
+      box-shadow: 0 6px 16px rgba(122, 92, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .menu-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Backdrop Overlay */
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transition: opacity 0.3s ease;
+    }
+
+    .backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: fixed;
+      top: 70px;
+      right: 24px;
+      background: rgba(0, 0, 0, 0.95);
+      min-width: 300px;
+      max-width: 90vw;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px) scale(0.95);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      border: 3px solid var(--metro-primary);
+    }
+
+    .dropdown-menu.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .menu-item {
+      display: block;
+      padding: 14px 20px;
+      text-decoration: none;
+      color: var(--link);
+      border-bottom: 1px solid rgb(86, 63, 112);
+      font-size: 14px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--metro-light);
+      transform: translateX(-4px);
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item:hover {
+      background: rgba(180, 150, 255, 0.18);
+      padding-left: 24px;
+      text-shadow: 0 0 7px rgba(180, 150, 255, 0.45);
+      animation: highlightPulse 0.5s ease;
+    }
+
+    .menu-item:hover::before {
+      transform: translateX(0);
+    }
+
+    @keyframes highlightPulse {
+      0% {
+        transform: scaleX(0.8);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scaleX(1.1);
+        opacity: 1;
+      }
+      100% {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+
+    /* Main Content Area */
+    main {
+      max-width: var(--max-width);
+      margin: 48px auto;
+      padding: 0 24px;
+      opacity: 1;
+      transform: none;
+      transition: opacity 380ms ease-out, transform 380ms ease-out;
+    }
+
+    body.loaded main {
+      opacity: 1;
+      transform: none;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 24px;
+      padding: 16px 0;
+      letter-spacing: 0px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 32px auto;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(122, 92, 255, 0.55);
+    }
+
+    #cheapwine-logo:hover,
+    #cheapwine-logo:focus {
+      transform: none;
+      box-shadow: none;
+      outline: none;
+    }
+
+    /* Logo */
+    .logo-wrap {
+      display: inline-block;
+      position: relative;
+      overflow: visible;
+    }
+
+    .logo {
+      width: 240px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 24px auto;
+      cursor: pointer;
+      transition: transform 420ms ease, opacity 420ms ease;
+    }
+
+    .logo.explode {
+      transform: scale(0);
+      opacity: 0;
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      transition: transform 900ms cubic-bezier(.1,.7,.1,1), opacity 900ms linear, width 900ms linear, height 900ms linear;
+      will-change: transform, opacity;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      background-size: auto;
+    }
+
+    /* Delete Button */
+    .delete-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: var(--metro-primary);
+      border: 3px solid var(--metro-light);
+      color: #fff;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Cascadia Mono', monospace;
+      cursor: pointer;
+      z-index: 10001;
+      box-shadow: 0 8px 20px rgba(122, 92, 255, 0.45);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .delete-btn:hover {
+      background: var(--metro-dark);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(122, 92, 255, 0.55);
+    }
+
+    .delete-btn:active {
+      transform: scale(0.95);
+    }
+
+    .explode-text {
+      display: inline-block;
+      will-change: transform, filter, opacity;
+      animation: explodePulse 180ms ease;
+    }
+
+    @keyframes explodePulse {
+      0% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      50% {
+        transform: scale(1.08) rotate(-1deg);
+        filter: brightness(1.2) saturate(1.1);
+      }
+      100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    /* Void Overlay */
+    #juno-void-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 600ms ease-in;
+    }
+
+    #juno-void-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .void-text {
+      color: #fff;
+      font-size: 20px;
+      max-width: 90vw;
+      text-align: center;
+      padding: 20px;
+      font-family: 'Cascadia Mono', 'Comic Sans MS', sans-serif;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    footer {
+      max-width: var(--max-width);
+      margin: 64px auto 32px;
+      padding: 0 24px;
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 16px;
+    }
+
+    .quote {
+      color: #cfcfcf;
+      font-style: italic;
+      font-size: 15px;
+      margin-bottom: 12px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 1.4em;
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+    }
+
+    .quote-text {
+      display: inline-block;
+      animation: scrollQuote 15s linear infinite;
+      padding-right: 20px;
+      padding-left: 100px;
+    }
+
+    @keyframes scrollQuote {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Shatter styles */
+    .shatter-clone {
+      position: absolute;
+      pointer-events: none;
+      left: 0;
+      top: 0;
+      transform-origin: center;
+      transition: transform 900ms cubic-bezier(.1,.7,.1,1), opacity 900ms linear;
+      will-change: transform, opacity;
+      white-space: pre;
+    }
+
+    .shatter-hidden {
+      visibility: hidden;
+    }
+
+    /* Page transition */
+    #page-blink {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9997;
+      transition: opacity 260ms linear;
+    }
+
+    html.preload #page-blink {
+      opacity: 1;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header-title {
+        font-size: 16px;
+      }
+
+      .menu-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .dropdown-menu {
+        top: 60px;
+        right: 12px;
+        min-width: 250px;
+      }
+
+      main {
+        margin: 32px auto;
+        padding: 0 16px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .logo {
+        width: 180px;
+      }
+
+      .delete-btn {
+        right: 12px;
+        bottom: 12px;
+        padding: 8px 10px;
+        font-size: 10px;
+      }
+
+      footer {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 12px 16px;
+      }
+
+      .header-title {
+        font-size: 14px;
+      }
+
+      .menu-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      .dropdown-menu {
+        top: 50px;
+        right: 8px;
+        min-width: 240px;
+      }
+
+      .menu-item {
+        padding: 12px 16px;
+        font-size: 13px;
+      }
+
+      main {
+        margin: 24px auto;
+        padding: 0 12px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      .logo {
+        width: 140px;
+      }
+
+      .delete-btn {
+        right: 10px;
+        bottom: 10px;
+        padding: 6px 8px;
+        font-size: 9px;
+      }
+
+      footer {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body class="preload">
+  <div id="page-blink"></div>
+  <header class="site-header">
+    <div class="header-title">thisisjunoswebsite</div>
+    <div style="display: flex; gap: 8px;">
+      
+      <button class="menu-btn" id="menu-toggle">☰ MENU</button>
+    </div>
+  </header>
+  <div class="backdrop"></div>
+  <nav class="dropdown-menu" id="dropdown-menu">
+    <a href="index.html" class="menu-item">Home</a>
+    <a href="about.html" class="menu-item">About Me</a>
+    <a href="blog.html" class="menu-item">Blog</a>
+    <a href="energy-diagnosis.html" class="menu-item">Energy Diagnosis</a>
+    <a href="chords.html" class="menu-item">Chords</a>
+    <a href="cheapwine.html" class="menu-item">Cheapwine Hangover</a>
+    <a href="socials.html" class="menu-item">Socials</a>
+    <a href="projects.html" class="menu-item">Projects</a>
+    <a href="music.html" class="menu-item">Music</a>
+    <a href="art.html" class="menu-item">Art</a>
+    <a href="self-archive.html" class="menu-item">Self-Archive</a>
+    <a href="commissions.html" class="menu-item">Commissions</a>
+      <a href="world.html" class="menu-item">the world as we knew it.</a>
+    <a href="Old Site\index.html" class="menu-item">Go To Old Site</a>
+    <a href="#" onclick="window.open('https://www.patreon.com/cw/JunoDoesThings'); return false;" class="menu-item">Patreon</a>
+  </nav>
+
+  <div id="settings-menu" class="settings-menu">
+    <div class="settings-content">
+      <h2 style="margin-top: 0; margin-bottom: 20px;">Settings</h2>
+      <div class="settings-item">
+        <label for="dark-mode-toggle" style="display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer;">
+          <input type="checkbox" id="dark-mode-toggle" style="width: 20px; height: 20px; cursor: pointer;">
+          <span>Dark Mode</span>
+        </label>
+      </div>
+      <button id="close-settings" style="margin-top: 20px; width: 100%;">Close</button>
+    </div>
+  </div>
+
+  <button id="nuke-button" class="delete-btn">Click To Win!!!!!</button>
+
+  <main>
+    <p id="daily-quote" class="quote" aria-live="polite"></p>
+    <script id="quotes-data" type="text/plain">
+Today I bled failure all the way up to the sky, and I grinned hopelessly as I sit down to die.
+So he aimed the shotgun into the blue, Placed his face in between the two and sighed: "Here's to life!"
+When as you close your eyes for the big sleep, I hope you think of me
+And fuck I'm swerving on the pavement, I'm just lurking in the basement. I've been working in my notebook and I got hooks so dope they break shit!
+And he says one day you'll wear a tie and I say fuck off I will you cunt!
+YEAH ALL THEY WANT IS YOUR FUCKING MONEY!
+Now put the cash in the back bitch, I ain't a bad man it's the world that is the evil place!
+I'm sick of kicking and kissing shit, listen I'm skipping this prison bitch!
+I was born free and I won't die in these chains!
+Back where it had begun, the colors broke and spun. As we became the strange yet I embrace the change!
+Flash back, maybe to a blacklisted dream, I said, Lucy called, maybe long after the peak!
+So don't you look at me, you'll see there's nothing here but chemistry!
+Oh, the dark lights on my head are keeping me. Oh, the dark lights are all gone, no sleep for me!
+I think I talk too much and say what's on my mind. I think I talk too much shouldn't that be kept inside?
+Every bit of paper and a pen with no eraser where the left one writes poorly processed poetry, and portraits of my personhood.
+I am bleeding, can't you see the hand that has been dealt to me? Hearts club spades to diamonds that don't shine.
+You don't know what my name is but I'll be famous. Jamface was my game and now I'm, It's aimless, I know.
+The better of the two's up to you it's 1 fish 2 fish, me or you, bitch!
+Suffering's just another perspective. Toughen up, breathe deep and just-
+We are so brittle, with bones so fickle, they lie so steady, and now I'm ready to die or drive.
+Tear the fever out of my lungs, put the cold back under my tongue.
+I searched every cupboard in the house, looking to find something to eat; all the food we had was rotten, so I only brushed my teeth.
+So I take my last two tabs of acid, smash my fist through a fucking wall.
+Ten times a day, ten times a year, you never showed us mate, you never, never shed a tear.
+Ten songs a year, ten songs a day, you never shed a tear until the media looks away.
+"Fuck school man, let's get drunk because we can have so much more fun when we don't have to answer to anyone."
+Well truth be told, it's getting old, watching all my ex's fuck through all my friends, and my soul has grown cold as a result.
+The kids are blacking out, the pigs are cracking down, and I'm just staring at the peeling ceiling.
+I need to go somewhere where no-one knows my name, cause right now this town is too small and I fucking hate this place.
+Frugal and resourceful, yeah, just doing it unlawful, get creative, don't parade it, baby prove it if you're awful.
+Yeah I'll be there for you till when I die, bearing roses red as my eyes, protect you from the dreadful shit, I will be your lifeline.
+Well I wish for this song to never hit the spot that gives you the strength to tell your boss to get fucked and quit that job you hate so much.
+We all need fucking money but there's a war to fight and I want you to only ever be a drunken stumble away from me.
+Sifting through a mix of memories, as I bury my dog underneath our tree.
+As he lights an American Spirit, he asks how I can smoke such shit.
+And now he's driving us 100 miles an hour down the interstate, another beer in his hand, swearing we won't be late.
+That was before everyone moved to New Mexico; they all left a couple of months ago.
+And in my dreams, I am dirty broke, beautiful, and free.
+We aren't revolutionaries but we are the revolution.
+Class traitor? What fucking ever! I'm just another middle class kid too.
+But if I'm not good at changing, I'm good at self‑loathing; so I'll class hate myself with you.
+May our only occupation be not having a job, may the only cocktails that we make be Molotov.
+And in my dreams, I am dirty broke, beautiful and free.
+Tonight I burn my home while Beethoven plays so tomorrow I can live like I died yesterday.
+Tonight I bake my madness a birthday cake because even the insomniacs aren't awake.
+Today I bled failure all the way up to the sky and I grinned hopelessly as I sit down to die.
+God gave me instructions on how to live my life but I couldn't read his handwriting so I burnt them last night.
+Instead I wait in the bushes outside of a cop's house, holding a twelve gauge; God isn't dead but I'll get that bastard some day!
+But that's okay, 'cause if that's where Limbaugh goes then I don't even want any part of heaven.
+Maybe I'll start a meth lab my friends make a lot selling drugs.
+Burning holes in my brain, Cocaine. Alcohol cheap thrills Snorting pills.
+Oh I'll be having acid for dinner let all the walls cave into one let all the werewolves come.
+Oh how I wanna be an alcoholic drink until the day I die passing out every night for falling over is how I wanna be remembered.
+I'm wondering what it's like on the other side cause I'm pretty sure that I'm ready to die.
+I'm telling my boss she's a bitch and I'm upper cutting ex‑girlfriends and setting wrongs right.
+It's the kind of night to die when there's no purpose nothing matters at all.
+Here is to fucking up no one ever said it's wrong newspapers television, and cops.
+And I know that everything's full of shit and I don't know what's right but this is not it.
+Today might be the day I die shot dead across the street left to running rest in a lonely piece.
+Fuck Cops I hate them I hope they die.
+And last week the bastards they took away my license I drove to court and I drove home cause fuck what they say.
+Sorry but Andy fuck you and fuck God cause nothing else matters but me and my dog and playing guitar in my bedroom or garden because life wasn't meant to be hard.
+When I was just eighteen I had a girl that I loved we wouldn't go to school, or take no shit from no one.
+Well, I miss my friends and they're never coming back they're either all on drugs or working for the banks.
+And I feel so out of place among all of the humans I don't wanna duplicate each day I've got books to read and a world to save.
+Well, my mother always said there were no monsters no real ones oh but there are.
+And when you're on acid the colors will burn all bright but I can't shake the feeling that something's just not right.
+Well, hey what are you hiding down there? I swear that it's nothing just my dick or something and you should let me walk on out there.
+But now they're all lawyers doctors and cops rich and successful, and everything that I am not.
+Well, let me check my disappointment book looks like I can pencil you in next week at this time.
+Cause I'm cooking some pies baking a pizza making some soup and it's got pig in it.
+Fuck this place I'm getting out walking to the edge of town drop me at the closest hole in space.
+Well I wish I could stay asleep for days things are better when I'm not awake.
+This world it wasn't meant for me can you pass me more amphetamines and drop me at the closest hole in space.
+But don't be scared cause I got a lot of coffee and guns we'll fight the horde and they'll rue the day they ever fucked with us.
+No bosses or banks or landlords all thanks to the army of the dead.
+Now come and become, there's work to be done you can go to sleep when you're dead.
+I said "Hey there small boy I don't wanna use this come any closer I promise I'll do it" and I guess that's what brains look like.
+I said, "All I can hope for is for you to get better 'Cause all I can take is no more".
+So I'll hide where I can away from you and your friends leaking tears over beers once again.
+I wanna start from the top maybe like a do‑over replace the voices in my head with blind innocence.
+I hate worrying about the future 'Cause all my current problems are based around the past.
+    </script>
+    
+    <h1>Welcome!</h1>
+
+    <p>
+      You have entered the old (But Now Renewed!) busted down area of juno sillys, welcome.
+    </p>
+
+    <p>
+      In This wretched corner of the internet, you will see lots of weird shit around here. this is MY site so i can do whatever the FUCK i want. Anyways, have fun or whatever.
+    </p>
+
+    <p class="muted">
+    
+    </p>
+  </main>
+
+  <footer>
+    <p></p>
+  </footer>
+
+  <div class="logo-wrap" style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 10000;">
+    <img src="Assets/Images/guy.png" alt="Guy image" class="logo" id="cheapwine-logo" style="width: 400px; margin: 0; cursor: pointer;">
+  </div>
+
+  <script>
+    // Menu Toggle Functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const dropdownMenu = document.getElementById('dropdown-menu');
+    const backdrop = document.querySelector('.backdrop');
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    function toggleMenu() {
+      const isOpen = dropdownMenu.classList.contains('active');
+      
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    function openMenu() {
+      dropdownMenu.classList.add('active');
+      backdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      dropdownMenu.classList.remove('active');
+      backdrop.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    menuToggle.addEventListener('click', toggleMenu);
+    backdrop.addEventListener('click', closeMenu);
+
+    // Close menu when clicking on a menu item
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    // Page transition handler
+    const pageBlink = document.getElementById('page-blink');
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a[href]');
+      if (link && !link.target && !link.href.includes('#')) {
+        const href = link.getAttribute('href');
+        if (href && !href.includes('javascript:') && !href.includes('patreon')) {
+          e.preventDefault();
+          
+          if (pageBlink) {
+            document.documentElement.classList.add('preload');
+            pageBlink.style.opacity = '1';
+            
+            setTimeout(() => {
+              window.location.href = href;
+            }, 260);
+          }
+        }
+      }
+    });
+
+    // Ensure page is loaded
+    window.addEventListener('DOMContentLoaded', function() {
+      document.body.classList.add('loaded');
+      if (pageBlink) {
+        document.documentElement.classList.remove('preload');
+        pageBlink.style.opacity = '0';
+      }
+    });
+  </script>
+
+  <script>
+  ;(function(){
+    function shatterElementText(el){
+      if(!el || el.dataset.shattering) return;
+      var text = el.textContent || '';
+      if(!text.trim()) return;
+      el.dataset.shattering = '1';
+      var original = el.innerHTML;
+      el.innerHTML = '';
+      var spans = [];
+      for(var i=0;i<text.length;i++){
+        var ch = text[i];
+        var s = document.createElement('span');
+        s.textContent = ch;
+        s.style.whiteSpace = 'pre';
+        s.className = 'shatter-char';
+        el.appendChild(s);
+        spans.push(s);
+      }
+      var clones = [];
+      spans.forEach(function(s){
+        var r = s.getBoundingClientRect();
+        var c = s.cloneNode(true);
+        c.className = 'shatter-clone';
+        c.style.left = r.left + 'px';
+        c.style.top = r.top + 'px';
+        c.style.width = r.width + 'px';
+        c.style.height = r.height + 'px';
+        c.style.font = getComputedStyle(s).font;
+        c.style.color = getComputedStyle(s).color;
+        document.body.appendChild(c);
+        clones.push(c);
+        s.style.visibility = 'hidden';
+      });
+      clones.forEach(function(c){
+        var angle = Math.random()*Math.PI*2;
+        var dist = 60 + Math.random()*260;
+        var x = Math.cos(angle)*dist;
+        var y = Math.sin(angle)*dist + 40;
+        var rot = (Math.random()*360-180) + 'deg';
+        requestAnimationFrame(function(){
+          c.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rot + ')';
+          c.style.opacity = '0';
+        });
+      });
+      setTimeout(function(){
+        clones.forEach(function(c){ if(c.parentNode) c.parentNode.removeChild(c); });
+        el.innerHTML = original;
+        delete el.dataset.shattering;
+      }, 1100);
+    }
+
+    document.querySelectorAll('header').forEach(function(header){
+      header.addEventListener('click', function(e){
+        var tgt = e.target.closest ? e.target.closest('a, h1') : null;
+        if(!tgt) return;
+        if(tgt.tagName === 'A' && tgt.getAttribute('href') && !tgt.getAttribute('href').startsWith('#')){
+          e.preventDefault();
+        }
+        shatterElementText(tgt);
+      });
+    });
+  })();
+  </script>
+
+  <script>
+  ;(function(){
+    var logo = document.getElementById('cheapwine-logo');
+    if(!logo) return;
+    var wrapper = logo.parentElement;
+    var exploded = false;
+
+    function createFragmentCanvas(sx_natural, sy_natural, sWidth_nat, sHeight_nat, destW, destH, img){
+      var c = document.createElement('canvas');
+      c.width = Math.max(1, Math.round(destW));
+      c.height = Math.max(1, Math.round(destH));
+      var ctx = c.getContext('2d');
+      try{
+        ctx.drawImage(img, sx_natural, sy_natural, sWidth_nat, sHeight_nat, 0, 0, destW, destH);
+      }catch(e){
+        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height);
+      }
+      c.className = 'particle';
+      c.style.width = destW + 'px';
+      c.style.height = destH + 'px';
+      c.style.position = 'absolute';
+      c.style.left = '50%';
+      c.style.top = '50%';
+      c.style.transform = 'translate(-50%, -50%)';
+      c.style.opacity = '1';
+      return c;
+    }
+
+    logo.addEventListener('click', function(){
+      if(exploded) return;
+      exploded = true;
+      var audio = new Audio('Assets/Audio/explode.mp3');
+      audio.play().catch(function(e){ console.log('Audio play failed:', e); });
+      var rect = logo.getBoundingClientRect();
+      var displayedW = rect.width;
+      var displayedH = rect.height;
+      var naturalW = logo.naturalWidth || displayedW;
+      var naturalH = logo.naturalHeight || displayedH;
+      var ratioX = naturalW / displayedW;
+      var ratioY = naturalH / displayedH;
+
+      logo.classList.add('explode');
+      var count = 36;
+      for(var i=0;i<count;i++){
+        (function(){
+          var fragW = 8 + Math.round(Math.random()*28);
+          var fragH = fragW;
+          var sx_display = Math.random() * Math.max(0, displayedW - fragW);
+          var sy_display = Math.random() * Math.max(0, displayedH - fragH);
+          var sx_nat = sx_display * ratioX;
+          var sy_nat = sy_display * ratioY;
+          var sWidth_nat = fragW * ratioX;
+          var sHeight_nat = fragH * ratioY;
+
+          var c = createFragmentCanvas(sx_nat, sy_nat, sWidth_nat, sHeight_nat, fragW, fragH, logo);
+          wrapper.appendChild(c);
+          c.getBoundingClientRect();
+
+          var angle = Math.random() * Math.PI * 2;
+          var dist = 80 + Math.random()*200;
+          var x = Math.cos(angle) * dist;
+          var y = Math.sin(angle) * dist;
+          c.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+          c.style.opacity = '0';
+          c.style.width = '0px';
+          c.style.height = '0px';
+
+          setTimeout(function(){ if(c && c.parentNode) c.parentNode.removeChild(c); }, 1100 + Math.random()*300);
+        })();
+      }
+
+      setTimeout(function(){ logo.classList.remove('explode'); exploded = false; }, 1200 + Math.random()*400);
+    });
+  })();
+  </script>
+
+  <script>
+  ;(function(){
+    var btn = document.getElementById('nuke-button');
+    if(!btn) return;
+    function nukeElementText(el){
+      if(!el) return;
+      var text = el.textContent || '';
+      if(!text.trim()) return;
+      el.classList.add('explode-text');
+      setTimeout(function(){
+        el.classList.remove('explode-text');
+        try{
+          var rect = el.getBoundingClientRect();
+          var computed = getComputedStyle(el);
+          var canvas = document.createElement('canvas');
+          var w = Math.max(1, Math.round(rect.width));
+          var h = Math.max(1, Math.round(rect.height));
+          canvas.width = w;
+          canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.clearRect(0,0,w,h);
+          var fontSize = computed.fontSize || '16px';
+          ctx.font = (computed.fontWeight ? computed.fontWeight + ' ' : '') + fontSize + ' ' + (computed.fontFamily || 'sans-serif');
+          ctx.fillStyle = computed.color || '#fff';
+          ctx.textBaseline = 'top';
+          var words = text.split(/\s+/);
+          var line = '';
+          var y = 0;
+          var lineHeight = parseFloat(computed.lineHeight) || (parseFloat(fontSize) * 1.2);
+          for(var i=0;i<words.length;i++){
+            var test = line ? (line + ' ' + words[i]) : words[i];
+            var m = ctx.measureText(test).width;
+            if(m > w && line){
+              ctx.fillText(line, 0, y);
+              y += lineHeight;
+              line = words[i];
+            } else {
+              line = test;
+            }
+          }
+          if(line) { ctx.fillText(line, 0, y); }
+
+          var tile = Math.max(10, Math.round(Math.min(w,h) / 12));
+          var cols = Math.ceil(w / tile);
+          var rows = Math.ceil(h / tile);
+          for(var row=0; row<rows; row++){
+            for(var col=0; col<cols; col++){
+              (function(){
+                var sx = col * tile;
+                var sy = row * tile;
+                var sw = Math.min(tile, w - sx);
+                var sh = Math.min(tile, h - sy);
+                if(sw <=0 || sh <= 0) return;
+                var frag = document.createElement('canvas');
+                frag.width = sw; frag.height = sh;
+                var fctx = frag.getContext('2d');
+                fctx.drawImage(canvas, sx, sy, sw, sh, 0, 0, sw, sh);
+                frag.style.position = 'fixed';
+                frag.style.left = (rect.left + sx) + 'px';
+                frag.style.top = (rect.top + sy) + 'px';
+                frag.style.pointerEvents = 'none';
+                frag.style.transition = 'transform 1200ms cubic-bezier(.1,.7,.1,1), opacity 1200ms linear';
+                document.body.appendChild(frag);
+                var angle = Math.random() * Math.PI * 2;
+                var dist = 120 + Math.random()*420;
+                var x = Math.cos(angle) * dist;
+                var y = Math.sin(angle) * dist + 30;
+                var rot = (Math.random()*360-180) + 'deg';
+                requestAnimationFrame(function(){
+                  frag.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rot + ')';
+                  frag.style.opacity = '0';
+                });
+                setTimeout(function(){ if(frag && frag.parentNode) frag.parentNode.removeChild(frag); }, 1400 + Math.random()*600);
+              })();
+            }
+          }
+          el.style.visibility = 'hidden';
+        }catch(e){
+          try{ el.style.visibility = 'hidden'; }catch(_){ }
+        }
+      }, 120);
+    }
+
+    function nukeAll(){
+      if(document.body.dataset.nuked) return;
+      document.body.dataset.nuked = '1';
+      var nodes = Array.from(document.querySelectorAll('h1,h2,h3,p,a,li,span,button,.muted,.bio'));
+      nodes.forEach(function(el){
+        if(el.id === 'nuke-button') return;
+        if(!el.textContent.trim()) return;
+        nukeElementText(el);
+      });
+      var logoImg = document.getElementById('cheapwine-logo');
+      if(logoImg){
+        nukeImage(logoImg);
+      }
+      var headerEl = document.querySelector('header');
+      if(headerEl) nukeBorder(headerEl);
+      setTimeout(function(){ fadeToVoid(); }, 1800);
+    }
+
+    function nukeImage(img){
+      if(!img) return;
+      try{
+        var rect = img.getBoundingClientRect();
+        var displayedW = rect.width;
+        var displayedH = rect.height;
+        var naturalW = img.naturalWidth || displayedW;
+        var naturalH = img.naturalHeight || displayedH;
+        var ratioX = naturalW / displayedW;
+        var ratioY = naturalH / displayedH;
+        var count = 48;
+        for(var i=0;i<count;i++){
+          (function(){
+            var fragW = 6 + Math.round(Math.random()*30);
+            var fragH = fragW;
+            var sx_display = Math.random() * Math.max(0, displayedW - fragW);
+            var sy_display = Math.random() * Math.max(0, displayedH - fragH);
+            var sx_nat = sx_display * ratioX;
+            var sy_nat = sy_display * ratioY;
+            var sWidth_nat = fragW * ratioX;
+            var sHeight_nat = fragH * ratioY;
+            var c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(fragW));
+            c.height = Math.max(1, Math.round(fragH));
+            var ctx = c.getContext('2d');
+            try{ ctx.drawImage(img, sx_nat, sy_nat, sWidth_nat, sHeight_nat, 0,0, fragW, fragH); }catch(e){ ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height); }
+            c.style.position = 'fixed';
+            c.style.left = (rect.left + sx_display) + 'px';
+            c.style.top = (rect.top + sy_display) + 'px';
+            c.style.pointerEvents = 'none';
+            c.style.transition = 'transform 1200ms cubic-bezier(.1,.7,.1,1), opacity 1200ms linear';
+            document.body.appendChild(c);
+            c.getBoundingClientRect();
+            var angle = Math.random() * Math.PI * 2;
+            var dist = 120 + Math.random()*420;
+            var x = Math.cos(angle) * dist;
+            var y = Math.sin(angle) * dist + 30;
+            var rot = (Math.random()*360-180) + 'deg';
+            requestAnimationFrame(function(){
+              c.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rot + ')';
+              c.style.opacity = '0';
+            });
+            setTimeout(function(){ if(c && c.parentNode) c.parentNode.removeChild(c); }, 1400 + Math.random()*800);
+          })();
+        }
+        img.style.visibility = 'hidden';
+      }catch(e){ console.error(e); }
+    }
+
+    function nukeBorder(headerEl){
+      try{
+        var cs = getComputedStyle(headerEl);
+        var bw = parseFloat(cs.borderBottomWidth) || 0;
+        if(bw <= 0) return;
+        var rect = headerEl.getBoundingClientRect();
+        var w = Math.max(20, Math.round(rect.width));
+        var h = Math.max(4, Math.round(bw));
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        var color = cs.borderBottomColor || '#e5e5e5';
+        ctx.fillStyle = color;
+        ctx.fillRect(0,0,w,h);
+        var tile = Math.max(6, Math.round(Math.min(w,h)/3));
+        var cols = Math.ceil(w / tile);
+        var rows = Math.ceil(h / tile);
+        for(var row=0; row<rows; row++){
+          for(var col=0; col<cols; col++){
+            (function(){
+              var sx = col*tile; var sy = row*tile;
+              var sw = Math.min(tile, w - sx);
+              var sh = Math.min(tile, h - sy);
+              if(sw<=0||sh<=0) return;
+              var frag = document.createElement('canvas'); frag.width = sw; frag.height = sh;
+              var fctx = frag.getContext('2d');
+              fctx.drawImage(canvas, sx, sy, sw, sh, 0,0, sw, sh);
+              frag.style.position = 'fixed';
+              frag.style.left = (rect.left + sx) + 'px';
+              frag.style.top = (rect.top + rect.height - h + sy) + 'px';
+              frag.style.pointerEvents = 'none';
+              frag.style.transition = 'transform 1000ms cubic-bezier(.1,.7,.1,1), opacity 1000ms linear';
+              document.body.appendChild(frag);
+              frag.getBoundingClientRect();
+              var angle = Math.random()*Math.PI*2; var dist = 80 + Math.random()*240;
+              var x = Math.cos(angle)*dist; var y = Math.sin(angle)*dist + 10; var rot = (Math.random()*360-180)+'deg';
+              requestAnimationFrame(function(){ frag.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rot + ')'; frag.style.opacity='0'; });
+              setTimeout(function(){ if(frag.parentNode) frag.parentNode.removeChild(frag); }, 1100 + Math.random()*500);
+            })();
+          }
+        }
+        headerEl.style.borderBottomColor = 'transparent';
+      }catch(e){ console.error(e); }
+    }
+
+    function fadeToVoid(){
+      var overlay = document.getElementById('juno-void-overlay');
+      if(overlay){
+        if(overlay.querySelector('.void-text')) return;
+        overlay.innerHTML = '';
+        overlay.className = '';
+      } else {
+        overlay = document.createElement('div');
+        overlay.id = 'juno-void-overlay';
+      }
+      var txt = document.createElement('div');
+      txt.className = 'void-text';
+      
+      txt.appendChild(document.createTextNode('you now forever stare into the infinite '));
+      txt.appendChild(document.createTextNode('void'));
+      txt.appendChild(document.createTextNode('.'));
+      
+      overlay.appendChild(txt);
+      document.body.appendChild(overlay);
+      
+      var voidAudio = new Audio('Assets/Audio/void.mp3');
+      voidAudio.play().catch(function(e){ console.log('Void audio play failed:', e); });
+      
+      setTimeout(function(){
+        overlay.classList.add('show');
+      }, 50);
+      
+      var isWhite = false;
+      
+      overlay.addEventListener('click', function(e){
+        if(!isWhite) {
+          voidAudio.pause();
+          voidAudio.currentTime = 0;
+          var quackAudio = new Audio('Assets/Audio/quack.mp3');
+          quackAudio.play().catch(function(e){ console.log('Quack audio play failed:', e); });
+          overlay.style.background = '#fff';
+          txt.innerHTML = '🦆 good job, we are white now 🦆';
+          txt.style.color = '#000';
+          isWhite = true;
+          return;
+        }
+        
+        voidAudio.pause();
+        voidAudio.currentTime = 0;
+        var quackAudio = new Audio('Assets/Audio/quack.mp3');
+        quackAudio.play().catch(function(e){ console.log('Quack audio play failed:', e); });
+        
+        var mouseX = e.clientX;
+        var mouseY = e.clientY;
+        for(var i=0; i<12; i++){
+          (function(){
+            var duck = document.createElement('div');
+            duck.textContent = '🦆';
+            duck.style.position = 'fixed';
+            duck.style.left = mouseX + 'px';
+            duck.style.top = mouseY + 'px';
+            duck.style.fontSize = '24px';
+            duck.style.pointerEvents = 'none';
+            duck.style.zIndex = '10003';
+            duck.style.transition = 'transform 1000ms cubic-bezier(.1,.7,.1,1), opacity 1000ms linear';
+            document.body.appendChild(duck);
+            
+            duck.getBoundingClientRect();
+            
+            var angle = (i / 12) * Math.PI * 2;
+            var dist = 200 + Math.random() * 150;
+            var x = Math.cos(angle) * dist;
+            var y = Math.sin(angle) * dist;
+            var rotation = Math.random() * 360;
+            
+            duck.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rotation + 'deg) scale(0)';
+            duck.style.opacity = '0';
+            
+            setTimeout(function(){ if(duck.parentNode) duck.parentNode.removeChild(duck); }, 1100);
+          })();
+        }
+      });
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      try{ nukeButton(btn); }catch(e){ }
+      setTimeout(function(){ nukeAll(); }, 160);
+    });
+    
+    function nukeButton(button){
+      if(!button) return;
+      var rect = button.getBoundingClientRect();
+      var w = Math.max(4, Math.round(rect.width));
+      var h = Math.max(4, Math.round(rect.height));
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      var style = getComputedStyle(button);
+      var bg = style.backgroundColor || '#1976d2';
+      ctx.fillStyle = bg;
+      var radius = Math.min(12, Math.round(Math.min(w,h)/6));
+      function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+      roundRect(ctx,0,0,w,h,radius); ctx.fill();
+      var font = (style.fontWeight ? style.fontWeight + ' ' : '') + (style.fontSize || '14px') + ' ' + (style.fontFamily || 'sans-serif');
+      ctx.font = font;
+      ctx.fillStyle = style.color || '#fff';
+      ctx.textBaseline = 'middle';
+      var text = button.textContent || '';
+      var tw = ctx.measureText(text).width;
+      ctx.fillText(text, (w - tw)/2, h/2);
+
+      var tile = Math.max(6, Math.round(Math.min(w,h)/6));
+      var cols = Math.ceil(w / tile);
+      var rows = Math.ceil(h / tile);
+      for(var r=0;r<rows;r++){
+        for(var c=0;c<cols;c++){
+          (function(){
+            var sx = c*tile; var sy = r*tile;
+            var sw = Math.min(tile, w - sx);
+            var sh = Math.min(tile, h - sy);
+            if(sw<=0||sh<=0) return;
+            var frag = document.createElement('canvas'); frag.width = sw; frag.height = sh;
+            var fctx = frag.getContext('2d');
+            fctx.drawImage(canvas, sx, sy, sw, sh, 0,0, sw, sh);
+            frag.style.position = 'fixed';
+            frag.style.left = (rect.left + sx) + 'px';
+            frag.style.top = (rect.top + sy) + 'px';
+            frag.style.pointerEvents = 'none';
+            frag.style.transition = 'transform 900ms cubic-bezier(.1,.7,.1,1), opacity 900ms linear';
+            document.body.appendChild(frag);
+            frag.getBoundingClientRect();
+            var angle = Math.random()*Math.PI*2; var dist = 80 + Math.random()*260;
+            var x = Math.cos(angle)*dist; var y = Math.sin(angle)*dist + 10; var rot = (Math.random()*360-180)+'deg';
+            requestAnimationFrame(function(){ frag.style.transform = 'translate(' + x + 'px, ' + y + 'px) rotate(' + rot + ')'; frag.style.opacity='0'; });
+            setTimeout(function(){ if(frag.parentNode) frag.parentNode.removeChild(frag); }, 1000 + Math.random()*600);
+          })();
+        }
+      }
+      button.style.visibility = 'hidden';
+    }
+  })();
+  </script>
+
+  <script>
+  ;(function(){
+    function loadDailyQuote(){
+      var container = document.getElementById('daily-quote');
+      if(!container) return;
+      var dataEl = document.getElementById('quotes-data');
+      var text = dataEl ? dataEl.textContent : '';
+      try{
+        var parts = text.split(/\r?\n\s*\r?\n+/);
+        if(parts.length <= 1){
+          parts = text.split(/\r?\n+/);
+        }
+        parts = parts.map(function(p){
+          return p.replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim();
+        }).filter(Boolean);
+        if(parts.length === 0){ container.textContent = ''; return; }
+        var idx = Math.floor(Math.random() * parts.length);
+        var quoteText = parts[idx];
+        container.innerHTML = '<span class="quote-text">' + quoteText + '</span>';
+      }catch(e){ container.textContent = ''; }
+    }
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', loadDailyQuote);
+    } else {
+      loadDailyQuote();
+    }
+  })();
+  </script>
+
+  <script>
+  ;(function(){
+    // Dark Mode Settings
+    const settingsToggle = document.getElementById('settings-toggle');
+    const closeSettings = document.getElementById('close-settings');
+    const settingsMenu = document.getElementById('settings-menu');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const html = document.documentElement;
+    
+    // Load dark mode preference on page load
+    function loadDarkModePreference() {
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        html.classList.add('dark-mode');
+        darkModeToggle.checked = true;
+      } else {
+        html.classList.remove('dark-mode');
+        darkModeToggle.checked = false;
+      }
+    }
+    
+    // Open settings menu
+    settingsToggle.addEventListener('click', function() {
+      settingsMenu.classList.add('active');
+    });
+    
+    // Close settings menu
+    closeSettings.addEventListener('click', function() {
+      settingsMenu.classList.remove('active');
+    });
+    
+    // Close settings menu when clicking outside
+    settingsMenu.addEventListener('click', function(e) {
+      if (e.target === settingsMenu) {
+        settingsMenu.classList.remove('active');
+      }
+    });
+    
+    // Handle dark mode toggle
+    darkModeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        html.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        html.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
+      }
+    });
+    
+    // Load preference on page load
+    loadDarkModePreference();
+  })();
+  </script>
+</body>
+</html>
