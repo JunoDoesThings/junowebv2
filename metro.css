@@ -133,7 +133,7 @@ header.site-header {
 .menu-btn {
   background: var(--metro-primary);
   border: 2px solid var(--metro-primary);
-  color: #fff;
+  color: #fff !important;
   padding: clamp(8px, 1vw, 12px) clamp(12px, 2vw, 16px);
   font-size: clamp(12px, 2vw, 14px);
   font-family: inherit;
@@ -141,6 +141,9 @@ header.site-header {
   transition: all 0.3s ease;
   box-shadow: 0 4px 14px rgba(122, 92, 255, 0.3);
   white-space: nowrap;
+  text-decoration: none !important;
+  display: inline-block;
+  line-height: 1.2;
 }
 .menu-btn:hover {
   background: var(--metro-dark);
