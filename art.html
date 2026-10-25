@@ -195,6 +195,31 @@
 
     <div class="art-gallery">
       <div class="art-item">
+        <img src="Art/Astrix PFP (7.9.26).png" alt="Astrix PFP (7.9.26)" data-description="New profile portrait version of Astrix done for a cleaner modern look.">
+        <p class="muted">Astrix PFP (7.9.26)</p>
+      </div>
+
+      <div class="art-item">
+        <img src="Art/Castrated Boy.jpg" alt="Castrated Boy" data-description="A more direct self-portrait study in a rougher, heavier style.">
+        <p class="muted">Castrated Boy</p>
+      </div>
+
+      <div class="art-item">
+        <img src="Art/Castrated Boy Unbothered.jpg" alt="Castrated Boy Unbothered" data-description="A sharper, more confident version of the same character with a lot more attitude.">
+        <p class="muted">Castrated Boy Unbothered</p>
+      </div>
+
+      <div class="art-item">
+        <img src="Art/Im Smiling, I Promise.jpg" alt="Im Smiling, I Promise" data-description="A darker, sardonic little portrait about keeping it together when everything feels bad.">
+        <p class="muted">Im Smiling, I Promise</p>
+      </div>
+
+      <div class="art-item">
+        <img src="Art/Professional Gun Tester.jpg" alt="Professional Gun Tester" data-description="A weird little character piece with a lot of chaos and personality built into the silhouette.">
+        <p class="muted">Professional Gun Tester</p>
+      </div>
+
+      <div class="art-item">
         <img src="Art/astrix726.png" alt="astrix726" data-description="I drew this the day after i moved into my new house!">
         <p class="muted">astrix 7/5/26</p>
       </div>
@@ -283,7 +308,6 @@
         <img src="Art/Astrix Ref Sheet.png" alt="Astrix Ref Sheet" data-description="Latest Astrix reference sheet!">
         <p class="muted">Astrix Ref Sheet</p>
       </div>
-
     </div>
 
   </main>
@@ -329,7 +353,7 @@
       modalImage.src = img.src;
       modalImage.alt = img.alt;
       modalNameSide.textContent = img.alt;
-      modalDesc.textContent = img.getAttribute('data-description') || 'No description available.';
+      modalDesc.textContent = img.alt || 'No description available.';
       
       // Update button states
       prevBtn.disabled = currentImageIndex === 0;
